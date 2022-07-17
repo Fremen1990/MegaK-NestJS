@@ -11,6 +11,11 @@ export interface RemoveFromBasketResponse {
   isSuccess: boolean;
 }
 
-export type GetBasketResponse = AddItemDto[];
+export interface OneItemInBasket{
+  id:string,
+  count:number
+}
+
+export type GetBasketResponse = OneItemInBasket[];
 
 export type GetTotalBasketPriceResponse = number;

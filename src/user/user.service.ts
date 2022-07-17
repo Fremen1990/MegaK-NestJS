@@ -13,4 +13,9 @@ export class UserService {
 
        return user;
     }
+
+    async getOneUser(id: string): Promise<User>{
+       return await User.findOne(id)
+    }
+
 }

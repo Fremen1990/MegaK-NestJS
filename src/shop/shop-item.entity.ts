@@ -1,4 +1,4 @@
-import {BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ShopItemInterface} from "../interfaces/shop";
 import {ItemInBasket} from "../basket/item-in-basket.entity";
 
@@ -24,6 +24,6 @@ export class ShopItem extends BaseEntity implements ShopItemInterface {
     })
     price: number;
 
-    @OneToOne(type => ItemInBasket, entity => entity.shopItem)
-    itemInBasket: ItemInBasket;
+    @OneToMany(type => ItemInBasket, entity => entity.shopItem)
+    itemsInBasket: ItemInBasket[];
 }

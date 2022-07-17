@@ -1,39 +1,43 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {
     AddToBasketResponse,
-    GetBasketResponse,
     GetTotalBasketPriceResponse,
     RemoveFromBasketResponse,
 } from '../interfaces/basket';
 import {ShopService} from '../shop/shop.service';
 import {AddItemDto} from './dto/add-item.dto';
 import {ItemInBasket} from "./item-in-basket.entity";
-import {ShopItem} from "../shop/shop-item.entity";
+import {UserService} from "../user/user.service";
 
 @Injectable()
 export class BasketService {
     constructor(
         @Inject(ShopService) private shopService: ShopService,
+        @Inject(UserService) private userService: UserService,
     ) {
     }
 
 
     async add(product: AddItemDto): Promise<AddToBasketResponse> {
-        const {count, id} = product;
+        const {count, productId, userId} = product;
 
-        const shopItem = await this.shopService.getOneItem(id);
+        const shopItem = await this.shopService.getOneItem(productId);
+
 
         if (
-            typeof id !== 'string'
+            typeof userId !== 'string'
+            ||
+            typeof productId !== 'string'
             ||
             typeof count !== 'number'
             ||
-            id === ''
+            productId === ''
+            ||
+            userId === ''
             ||
             count < 1
             ||
             !shopItem
-            // !(await this.shopService.hasItem(id))
         ) {
             return {
                 isSuccess: false,

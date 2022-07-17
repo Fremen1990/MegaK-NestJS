@@ -1,4 +1,5 @@
 export class AddItemDto {
-    id: string;
-    count: number;
+    productId: string;
+    userId: string;
+    count:number
 }
