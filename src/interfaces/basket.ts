@@ -1,4 +1,3 @@
-import { AddItemDto } from '../basket/dto/add-item.dto';
 
 export type AddToBasketResponse = {
   isSuccess: true;
@@ -16,6 +15,13 @@ export interface OneItemInBasket{
   count:number
 }
 
+
+
 export type GetBasketResponse = OneItemInBasket[];
 
 export type GetTotalBasketPriceResponse = number;
+
+export type GetBasketStatsResponse = {
+  itemInBasketAvgPrice:number;
+  basketAvgTotalPrice:number
+}

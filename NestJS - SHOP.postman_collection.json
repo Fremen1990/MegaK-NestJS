@@ -7,6 +7,51 @@
 	},
 	"item": [
 		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"userId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"test@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/user/register",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Shop",
 			"item": [
 				{
@@ -39,7 +84,7 @@
 							"script": {
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"productId\", jsonData.id);\r",
+									"postman.setEnvironmentVariable(\"orderId\", jsonData.id);\r",
 									"\r",
 									"\r",
 									"// const newAccessToken = responseHeaders['x-access-token']\r",
@@ -58,7 +103,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"id\": \"{{add_product_1}}\",\r\n\"count\": 5\r\n}",
+							"raw": "{\r\n\"productId\": \"{{add_product_1}}\",\r\n\"userId\":  \"{{userId}}\",\r\n\"count\": 5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -92,13 +137,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{endpoint}}/basket/{{productId}}",
+							"raw": "{{endpoint}}/basket/539ff089-c6d9-4938-9105-39c8d8211ace/5e6dae5b-2af9-41b1-b562-6c562379f777",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"basket",
-								"{{productId}}"
+								"539ff089-c6d9-4938-9105-39c8d8211ace",
+								"5e6dae5b-2af9-41b1-b562-6c562379f777"
 							]
 						}
 					},
@@ -110,12 +156,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{endpoint}}/basket",
+							"raw": "{{endpoint}}/basket/{{userId}}",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
-								"basket"
+								"basket",
+								"{{userId}}"
 							]
 						}
 					},
@@ -127,31 +174,50 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{endpoint}}/basket/total-price",
+							"raw": "{{endpoint}}/basket/total-price/{{userId}}",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"basket",
-								"total-price"
+								"total-price",
+								"{{userId}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Clear Basket",
+					"name": "Get Basket Admin",
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{endpoint}}/basket/all",
+							"raw": "{{endpoint}}/basket/admin",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"basket",
-								"all"
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basket Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/basket/stats",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"basket",
+								"stats"
 							]
 						}
 					},
@@ -193,6 +259,16 @@
 		{
 			"key": "productId",
 			"value": "<productId will be set when you Add To Basket>",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "<userId will be set when you register new user>",
+			"type": "string"
+		},
+		{
+			"key": "orderId",
+			"value": "<orderId will be set when you Add To Basket>",
 			"type": "string"
 		}
 	]

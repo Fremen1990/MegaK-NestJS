@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
 import {
   AddToBasketResponse,
-  GetBasketResponse,
+  GetBasketResponse, GetBasketStatsResponse,
   GetTotalBasketPriceResponse,
   RemoveFromBasketResponse,
 } from '../interfaces/basket';
@@ -46,6 +46,11 @@ getBasketForAdmin(
   }
 
 
+  @Get('/stats')
+getStats():Promise<GetBasketStatsResponse>{
+    return this.basketService.getStats();
+  }
+
   @Get('/:userId')
   getBasket(
       @Param('userId') userId: string
@@ -59,5 +64,6 @@ getBasketForAdmin(
   ): Promise<GetTotalBasketPriceResponse> {
     return this.basketService.getTotalPrice(userId);
   }
+
 
 }
