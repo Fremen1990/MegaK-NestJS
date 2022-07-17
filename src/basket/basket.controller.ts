@@ -38,6 +38,14 @@ export class BasketController {
     return this.basketService.remove(itemInBasketId, userId );
   }
 
+
+  @Get('/admin')
+getBasketForAdmin(
+  ): Promise<GetBasketResponse>{
+    return this.basketService.getAllForAdmin()
+  }
+
+
   @Get('/:userId')
   getBasket(
       @Param('userId') userId: string
