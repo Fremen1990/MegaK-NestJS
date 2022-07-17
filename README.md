@@ -18,10 +18,12 @@ This is repository with MegaK NestJS course, each branch represents separated da
 
 ## Postman collection:
 
-### Postman testing collection with defined variables and endpoints in the file: [Postman Collection]()
+### Postman testing collection with defined variables and endpoints in the file: [Postman Collection](https://github.com/Fremen1990/MegaK-NestJS/blob/feature/DAY-15/NestJS%20-%20SHOP.postman_collection.json)
 <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-ar21.png" width="100" height="50">
 
+Here is visiual instruction how to import Postman collsection to your local postamna:
 
+![](Postman-import-manual.png)
 
 ## Installation
 
