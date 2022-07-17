@@ -22,7 +22,7 @@ export class BasketService {
         const {count, productId, userId} = product;
 
         const shopItem = await this.shopService.getOneItem(productId);
-
+        const user = await this.userService.getOneUser(userId)
 
         if (
             typeof userId !== 'string'
@@ -38,6 +38,8 @@ export class BasketService {
             count < 1
             ||
             !shopItem
+            ||
+            !user
         ) {
             return {
                 isSuccess: false,
@@ -46,9 +48,7 @@ export class BasketService {
 
         const item = new ItemInBasket();
         item.count = count;
-
-        await item.save();
-
+        item.user = user;
         item.shopItem = shopItem;
 
         await item.save();
