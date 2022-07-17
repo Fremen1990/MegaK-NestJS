@@ -19,24 +19,29 @@ export class BasketController {
   @Post('/')
   addProductToBasket(
     @Body() product: AddItemDto,
-  ): AddToBasketResponse {
+  ): Promise<AddToBasketResponse> {
     return this.basketService.add(product);
   }
 
-  @Delete('/:index')
+  @Delete('/all')
+  clearBasket() {
+    this.basketService.clearBasket();
+  }
+
+  @Delete('/:id')
   removeProduct(
-    @Param('index') index: string,
-  ): RemoveFromBasketResponse {
-    return this.basketService.remove(Number(index));
+    @Param('id') id: string,
+  ): Promise<RemoveFromBasketResponse> {
+    return this.basketService.remove(id);
   }
 
   @Get('/')
-  getBasket(): GetBasketResponse {
+  getBasket(): Promise<GetBasketResponse> {
     return this.basketService.getAll();
   }
 
   @Get('/total-price')
-  getTotalBasketPrice(): GetTotalBasketPriceResponse {
+  getTotalBasketPrice(): Promise<GetTotalBasketPriceResponse> {
     return this.basketService.getTotalPrice();
   }
 

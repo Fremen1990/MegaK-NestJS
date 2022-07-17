@@ -1,39 +1,23 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { ShopItem } from '../interfaces/shop';
-import { BasketService } from '../basket/basket.service';
+import {Injectable} from '@nestjs/common';
+import {ShopItem} from "./shop-item.entity";
 
 @Injectable()
 export class ShopService {
 
 
-  constructor(@Inject(forwardRef(()=>BasketService)) private basketService: BasketService) {
+  async getItems(): Promise<ShopItem[]> {
+    return ShopItem.find();
   }
 
-  getItems(): ShopItem[] {
-    return [
-      {
-        name: 'Banan Afrykański',
-        description: 'Super banan!',
-        price: 5 - this.basketService.countPromo(),
-      },
-      {
-        name: 'Banan Europejski',
-        description: 'To takie istnieją?',
-        price: 4 - this.basketService.countPromo(),
-      },
-      {
-        name: 'Banan Zwyczajny',
-        description: 'Niby zwyczajny, ale smaczny.',
-        price: 4.5 ,
-      },
-    ];
+  async hasItem(name: string): Promise<boolean> {
+    return (await this.getItems()).some(item => item.name === name);
   }
 
-  hasItem(name: string): boolean {
-    return this.getItems().some(item => item.name === name);
+  async getPrice(name: string): Promise<number> {
+    return (await this.getItems()).find(item => item.name === name).price;
   }
 
-  getPrice(name: string): number {
-    return this.getItems().find(item => item.name === name).price;
+  async getOneItem(id: string): Promise<ShopItem> {
+    return await ShopItem.findOne(id);
   }
 }

@@ -2,7 +2,7 @@ import { AddItemDto } from '../basket/dto/add-item.dto';
 
 export type AddToBasketResponse = {
   isSuccess: true;
-  index: number;
+  id: string;
 } | {
   isSuccess: false;
 }
