@@ -9,19 +9,19 @@ async function bootstrap() {
     (app as NestExpressApplication).use(helmet())
 
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            disableErrorMessages:true,
-
-            whitelist:true,
-            forbidNonWhitelisted:true,
-
-            transform:true,
-            transformOptions:{
-                enableImplicitConversion:true
-            }
-        })
-    )
+    // app.useGlobalPipes(
+    //     new ValidationPipe({
+    //         disableErrorMessages:true,
+    //
+    //         whitelist:true,
+    //         forbidNonWhitelisted:true,
+    //
+    //         transform:true,
+    //         transformOptions:{
+    //             enableImplicitConversion:true
+    //         }
+    //     })
+    // )
 
 
     await app.listen(3000);

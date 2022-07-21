@@ -10,6 +10,17 @@ export class User extends BaseEntity {
     @Column({length: 255})
     email: string
 
+    @Column()
+    pwdHash:string;
+
+    @Column({
+        nullable: true,
+        default: null
+    })
+    currentTokenId:string | null
+
     @OneToMany(type => ItemInBasket, entity => entity.user)
     itemsInBasket: ItemInBasket[]
 }
+
+//TODO
