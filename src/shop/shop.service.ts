@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, Post} from '@nestjs/common';
 import {ShopItem} from "./shop-item.entity";
 import {ShopItemInterface} from "../interfaces/shop";
 import {AddProductDto} from "./dto/add-product.dto";
@@ -93,5 +93,28 @@ export class ShopService {
         }
 
 
+    }
+
+    async getPhoto(id: string, res: any) {
+
+        try{
+            const one = await ShopItem.findOne(id);
+            if(!one){
+                throw new Error("No object found!")
+            }
+
+            if(!one.photoFN){
+                throw new Error("No photo in this entity!")
+            }
+
+            res.sendFile(
+                one.photoFN,
+                {root: path.join(storageDir(), 'product-photos'),}
+            )
+
+        }catch (e) {
+            // throw e
+            res.json({error: e.message})
+        }
     }
 }
