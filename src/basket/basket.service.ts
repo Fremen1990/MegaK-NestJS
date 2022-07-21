@@ -11,6 +11,7 @@ import {UserService} from "../user/user.service";
 import {getConnection} from "typeorm";
 import {MailService} from "../mail/mail.service";
 import {addedToBasketInfoEmailTemplate} from "../templates/email/added-to-basek-info";
+import {User} from "../user/user.entity";
 
 @Injectable()
 export class BasketService {
@@ -22,22 +23,16 @@ export class BasketService {
     }
 
 
-    async add(product: AddItemDto): Promise<AddToBasketResponse> {
-        const {count, productId, userId} = product;
+    async add(product: AddItemDto, user: User): Promise<AddToBasketResponse> {
+        const {count, productId} = product;
 
         const shopItem = await this.shopService.getOneItem(productId);
-        const user = await this.userService.getOneUser(userId)
 
-        if (
-            typeof userId !== 'string'
-            ||
-            typeof productId !== 'string'
+        if (typeof productId !== 'string'
             ||
             typeof count !== 'number'
             ||
             productId === ''
-            ||
-            userId === ''
             ||
             count < 1
             ||

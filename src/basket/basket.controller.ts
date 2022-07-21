@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Inject, Param, Post, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Inject, Param, Post, UseGuards, UseInterceptors} from '@nestjs/common';
 import {
     AddToBasketResponse,
     GetBasketResponse, GetBasketStatsResponse,
@@ -10,6 +10,9 @@ import {AddItemDto} from './dto/add-item.dto';
 import {UseCacheTime} from "../decorators/use-cache-time.decorator";
 import {MyCacheInterceptor} from "../interceptors/my-cashe.interceptor";
 import {MyTimeoutInterceptor} from "../interceptors/my-timeout.interceptor";
+import {AuthGuard} from "@nestjs/passport";
+import {UserObj} from "../decorators/user-obj.decorator";
+import {User} from "../user/user.entity";
 
 @Controller('basket')
 export class BasketController {
@@ -20,10 +23,13 @@ export class BasketController {
     }
 
     @Post('/')
+    @UseGuards(AuthGuard('jwt'))
     addProductToBasket(
         @Body() product: AddItemDto,
+        @UserObj() user: User,
     ): Promise<AddToBasketResponse> {
-        return this.basketService.add(product);
+        console.log({user})
+        return this.basketService.add(product, user);
     }
 
     @Delete('/all/:userId')
