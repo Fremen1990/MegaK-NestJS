@@ -9,6 +9,7 @@ import { CacheModule } from './cache/cache.module';
 import { DiscountCodeModule } from './discount-code/discount-code.module';
 import { CronService } from './cron/cron.service';
 import { CronModule } from './cron/cron.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { CronModule } from './cron/cron.module';
         CacheModule,
         DiscountCodeModule,
         CronModule,
+        MailModule,
     ],
     controllers: [AppController],
     providers: [AppService, CronService],

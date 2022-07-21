@@ -9,12 +9,15 @@ import {AddItemDto} from './dto/add-item.dto';
 import {ItemInBasket} from "./item-in-basket.entity";
 import {UserService} from "../user/user.service";
 import {getConnection} from "typeorm";
+import {MailService} from "../mail/mail.service";
+import {addedToBasketInfoEmailTemplate} from "../templates/email/added-to-basek-info";
 
 @Injectable()
 export class BasketService {
     constructor(
         @Inject(ShopService) private shopService: ShopService,
         @Inject(UserService) private userService: UserService,
+        @Inject(MailService) private mailService: MailService,
     ) {
     }
 
@@ -53,6 +56,9 @@ export class BasketService {
         item.shopItem = shopItem;
 
         await item.save();
+
+
+        await this.mailService.sendMail(user.email, "Thanks for testing email :) ",addedToBasketInfoEmailTemplate(shopItem.name))
 
         return {
             isSuccess: true,
