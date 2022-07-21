@@ -3,20 +3,20 @@ import {Observable, throwError, TimeoutError} from "rxjs";
 import {catchError, timeout} from "rxjs/operators";
 
 @Injectable()
-export class MyTimeoutInterceptor implements NestInterceptor{
+export class MyTimeoutInterceptor implements NestInterceptor {
     async intercept(
-        context:ExecutionContext,
+        context: ExecutionContext,
         next: CallHandler,
-    ): Promise<Observable<any>>{
+    ): Promise<Observable<any>> {
         return next.handle().pipe(
             timeout(5000),
             catchError(err => {
-                if(err instanceof TimeoutError){
-                    return throwError(new RequestTimeoutException())
-                }else {
-                    return throwError(err)
+                if (err instanceof TimeoutError) {
+                    return throwError(() => new RequestTimeoutException());
                 }
-            })
-        )
+                return throwError(() => err);
+            }),
+        );
     }
 }
+
