@@ -11,6 +11,7 @@ import { CronService } from './cron/cron.service';
 import { CronModule } from './cron/cron.module';
 import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
+import {ConsoleModule} from "nestjs-console";
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
         CronModule,
         MailModule,
         AuthModule,
+        ConsoleModule
     ],
     controllers: [AppController],
     providers: [AppService, CronService],

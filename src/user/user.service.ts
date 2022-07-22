@@ -3,8 +3,12 @@ import {User} from "./user.entity";
 import {RegisterDto} from "./dto/register.dto";
 import {RegisterUserResponse} from "../interfaces/user";
 import {hashPwd} from "../utils/hash-pwd";
+import {Console} from "nestjs-console";
 
 @Injectable()
+@Console({
+    command:"users"
+})
 export class UserService {
 
     filter(user: User): RegisterUserResponse{
@@ -28,5 +32,6 @@ export class UserService {
     async getOneUser(id: string): Promise<User> {
         return await User.findOne(id)
     }
+
 
 }
