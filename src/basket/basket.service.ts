@@ -9,32 +9,30 @@ import {AddItemDto} from './dto/add-item.dto';
 import {ItemInBasket} from "./item-in-basket.entity";
 import {UserService} from "../user/user.service";
 import {getConnection} from "typeorm";
+import {MailService} from "../mail/mail.service";
+import {addedToBasketInfoEmailTemplate} from "../templates/email/added-to-basek-info";
+import {User} from "../user/user.entity";
 
 @Injectable()
 export class BasketService {
     constructor(
         @Inject(ShopService) private shopService: ShopService,
         @Inject(UserService) private userService: UserService,
+        @Inject(MailService) private mailService: MailService,
     ) {
     }
 
 
-    async add(product: AddItemDto): Promise<AddToBasketResponse> {
-        const {count, productId, userId} = product;
+    async add(product: AddItemDto, user: User): Promise<AddToBasketResponse> {
+        const {count, productId} = product;
 
         const shopItem = await this.shopService.getOneItem(productId);
-        const user = await this.userService.getOneUser(userId)
 
-        if (
-            typeof userId !== 'string'
-            ||
-            typeof productId !== 'string'
+        if (typeof productId !== 'string'
             ||
             typeof count !== 'number'
             ||
             productId === ''
-            ||
-            userId === ''
             ||
             count < 1
             ||
@@ -53,6 +51,9 @@ export class BasketService {
         item.shopItem = shopItem;
 
         await item.save();
+
+
+        await this.mailService.sendMail(user.email, "Thanks for testing email :) ",addedToBasketInfoEmailTemplate(shopItem.name))
 
         return {
             isSuccess: true,
